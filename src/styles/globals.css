@@ -6,17 +6,33 @@
   /* outline: dashed 1px red; */
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #27272a;
+    --color-text: #edeef0;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #f5f5f5;
+    --color-text: #1c2024;
+  }
+}
+
 body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: Inter, system-ui;
+}
+
+.map-outline {
+  filter: drop-shadow(0px 0px 0.3px currentColor) drop-shadow(0px 0px 0.3px currentColor)
+    drop-shadow(0px 0px 0.3px currentColor) drop-shadow(0px 0px 0.3px currentColor);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-}
-
-.react-transform-wrapper {
-  width: unset !important;
-  height: unset !important;
 }

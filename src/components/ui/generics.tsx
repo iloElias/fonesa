@@ -1,28 +1,106 @@
 import { cn } from "@/lib/utils";
+import {
+  Button as NextButton,
+  ButtonProps,
+  ButtonGroup as NextButtonGroup,
+  ButtonGroupProps,
+} from "@nextui-org/button";
+import {
+  Radio as NextRadio,
+  RadioProps as NextRadioProps,
+} from "@nextui-org/react";
 
-function Div ({ className, children }: React.HTMLAttributes<HTMLDivElement>) {
+const Div = ({
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className={cn('flex p-4 rounded-md aspect-square w-8 bg-[#fafafa] border border-[#e0e0e0]', className)}>
+    <div
+      className={cn(
+        "transition-colors overflow-auto duration-[50ms] bg-[#fafafa] dark:bg-[#212121] border-2 border-[#e0e0e0] dark:border-[#2e2e2e] rounded-lg",
+        className
+      )}
+      {...props}
+    >
       {children}
     </div>
   );
+};
+
+interface DivisorProps {
+  className?: string;
+  direction?: "horizontal" | "vertical";
 }
 
-function Button ({ className, children, onClick }: React.HTMLAttributes<HTMLButtonElement>) {
+const Divisor = ({
+  className,
+  direction = "horizontal",
+  ...props
+}: DivisorProps) => {
   return (
-    <button className={cn('rounded-md aspect-square w-8 bg-[#fafafa] border border-[#e0e0e0]', className)} onClick={onClick}>
-      {children}
-    </button>
+    <span
+      className={cn(
+        direction === "horizontal" ? "w-full h-[2px]" : "w-[2px] h-full",
+        "transition-colors duration-[50ms] border-b-2 border-b-[#e0e0e0] dark:border-b-[#2e2e2e] rounded-none shadow-none",
+        className
+      )}
+      {...props}
+    />
   );
-}
+};
 
-function ButtonGroup ({ className, children, variant = 'horizontal' }: { className?: string, children: React.ReactNode, variant?: 'horizontal' | 'vertical' }) {
+const Button = ({ className, children, ...props }: ButtonProps) => {
   return (
-    <div className={cn(variant === 'horizontal' ? 'flex space-x-2' : 'flex flex-col space-y-2', className)}>
+    <NextButton
+      className={cn(
+        "flex flex-row justify-center items-center min-w-8 px-2 aspect-square",
+        className
+      )}
+      color="primary"
+      variant="solid"
+      {...props}
+    >
       {children}
-    </div>
+    </NextButton>
   );
+};
+
+const ButtonGroup = ({ className, children, ...props }: ButtonGroupProps) => {
+  return (
+    <NextButtonGroup className={cn(className)} {...props}>
+      {children}
+    </NextButtonGroup>
+  );
+};
+
+interface RadioProps extends NextRadioProps {
+  startContent?: React.ReactNode;
 }
 
-const Generics = {Div, Button, ButtonGroup};
+export const Radio = ({ children, startContent, ...props }: RadioProps) => {
+  return (
+    <NextRadio
+      classNames={{
+        base: cn(
+          "inline-flex transition-colors duration-[50ms] m-1 mx-0 items-center justify-between flex-row-reverse cursor-pointer rounded-lg gap-2 p-2 pl-0 max-w-full min-w-full background-transparent border-[#e1e1e1] dark:border-[#2e2e2e] border-2 data-[selected=true]:border-[#026fed] dark:data-[selected=true]:border-[#026fed] data-[selected=true]:bg-[#026fed]/10"
+        ),
+        labelWrapper: cn("ml-0"),
+        // labelWrapper: cn(""),
+      }}
+      {...props}
+    >
+      <div className="flex flex-row font-[inter] gap-2 items-center group-data-[selected=true]:text-[#026fed]">
+        {startContent && (
+          <span className="material-symbols-rounded max-w-12 overflow-hidden p-2 rounded-lg border-2 border-transparent">
+            {startContent}
+          </span>
+        )}
+        {children}
+      </div>
+    </NextRadio>
+  );
+};
+
+const Generics = { Div, Button, ButtonGroup, Divisor, Radio };
 export default Generics;

@@ -1,13 +1,13 @@
 import "@/styles/globals.css";
 import "@radix-ui/themes/styles.css";
 
-import { Theme } from "@radix-ui/themes";
 import type { AppProps } from "next/app";
+import { Providers } from "@/components/providers";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Theme>
+    <Providers>
       <Component {...pageProps} />
-    </Theme>
+    </Providers>
   );
 }

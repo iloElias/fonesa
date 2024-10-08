@@ -1,201 +1,180 @@
 "use client";
-import { StateMap } from "@api/map";
-import { useEffect, useState } from "react";
+import { StateMap } from "@components/functional/map";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   TransformComponent,
   TransformWrapper,
   useControls,
 } from "react-zoom-pan-pinch";
 import Generics from "../ui/generics";
-import { Button } from "@radix-ui/themes";
-import { MinusIcon, PlusIcon, ReloadIcon } from "@radix-ui/react-icons";
-import HtmlTooltip from "../ui/html-tooltip";
+
 import { cn, isMobile } from "@/lib/utils";
+import { MapContext } from "@/pages";
+import { useLocalStorage } from "usehooks-ts";
 
 interface StatePathProps {
   state: StateMap;
   index: number;
-  selectedState: null | StateMap;
-  handleMouseEnter: CallableFunction;
-  handleClick: CallableFunction;
+  functional: boolean;
 }
 
-function StatePath({
-  state,
-  index,
-  selectedState,
-  handleMouseEnter,
-  handleClick,
-}: StatePathProps) {
-  const styles = () => {
-    if (isMobile()) {
-      return "fill-gray-100 stroke-gray-300 dark:fill-gray-500 dark:stroke-gray-300";
+interface MapRendererProps {
+  functional: boolean;
+  panning?: boolean;
+}
+
+interface MapWrapperProps {
+  children?: React.ReactNode;
+}
+
+function StatePath({ state, index, functional }: StatePathProps) {
+  const { selectedState, handleClick, setSelectedStateRef } =
+    useContext(MapContext);
+  const stateRef = useRef<SVGGElement | null>(null);
+  const [storedState] = useLocalStorage<string | null>("selected-state", null);
+
+  useEffect(() => {
+    if (state.uf === storedState) {
+      setSelectedStateRef(stateRef);
     }
-    return "fill-gray-100 stroke-gray-300 hover:fill-gray-300 hover:stroke-gray-400 dark:fill-gray-500 dark:stroke-gray-300 dark:hover:fill-gray-600 dark:hover:stroke-gray-700";
-  };
+  }, [setSelectedStateRef, state.uf, storedState]);
 
   return (
     <g
       key={index}
       id={state.uf}
+      ref={stateRef}
       className={cn(
-        selectedState?.uf === state.uf ? "selected-state" : "state-container"
+        selectedState?.uf === state.uf ? "selected-state" : "state-container",
+        "cursor-pointer !transform-none",
+        functional ? "pointer-events-auto" : "pointer-events-none"
       )}
-      onMouseLeave={() => handleMouseEnter(null)}
-      onMouseEnter={() => handleMouseEnter(index)}
       onClick={(e) => {
         e.stopPropagation();
-        handleClick(state);
+        if (functional && handleClick) {
+          handleClick(state);
+          if (setSelectedStateRef) {
+            setSelectedStateRef(stateRef);
+          }
+        }
       }}
     >
-      <HtmlTooltip title={<p>Informação do estado.</p>}>
+      <g>
+        <mask id={`path-br-${state.uf}-inside`.toLowerCase()} fill="white">
+          <path d={state.mapPath} />
+        </mask>
         <path
           id={`BR-${state.uf}`}
+          mask={`url(#path-br-${state.uf}-inside)`.toLowerCase()}
           className={cn(
-            "state-path stroke-[2px]",
+            "state-path stroke-[3px]",
             selectedState?.uf === state.uf
-              ? "fill-blue-300 stroke-blue-500 dark:fill-sky-800 dark:stroke-blue-600"
-              : styles()
+              ? "fill-[#c8def7] stroke-[#026fed]" //  dark:fill-sky-800 dark:stroke-blue-600
+              : "fill-[#fafafa] stroke-gray-300 md:hover:fill-[#d9d9d9] md:hover:stroke-[#ababac] dark:fill-[#e0e0e0] dark:stroke-[#9e9e9e] md:dark:hover:fill-[#c4c4c4] md:dark:hover:stroke-[#828181]",
+            "transition-colors duration-[50ms]"
           )}
           d={state.mapPath}
         />
-      </HtmlTooltip>
+      </g>
       <path
         id={`UF-${state.uf}`}
-        className="fill-neutral-900 state-uf w-[2dvh] h-[2dvh] pointer-events-none dark:fill-neutral-100"
+        className="fill-neutral-900 state-uf w-[2dvh] h-[2dvh] pointer-events-none" // dark:fill-neutral-100
         d={state.labelPath}
-      />
-      <path
-        className={`stroke-[2px] fill-red-500 stroke-red-600 ${
-          state.uf === selectedState?.uf ? "visible" : "hidden"
-        }`}
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d={state.markerPath}
-        fill="#2A58FB"
       />
     </g>
   );
 }
 
-export default function CountryMap() {
-  const [States, setStates] = useState<StateMap[] | null>(null);
-  const [selectedState, setSelectedState] = useState<StateMap | null>(null);
+const MapRenderer = ({ functional, panning }: MapRendererProps) => {
+  const { States } = useContext(MapContext);
+
+  return (
+    <svg
+      className={cn(
+        "transition-colors duration-[50ms] w-full h-full map-outline text-[#d2d5db] dark:text-[#9e9e9e]"
+      )}
+      style={{ clipRule: "evenodd" }}
+      viewBox="-50 -50 810 845"
+      xmlns="http://www.w3.org/2000/svg"
+      clip="ulr(#map-clip-parent)"
+    >
+      <g>
+        {States?.map((state: StateMap, index: number) => (
+          <StatePath
+            key={index}
+            state={state}
+            index={index}
+            functional={functional && !panning}
+          />
+        ))}
+      </g>
+    </svg>
+  );
+};
+
+const MapWrapper = ({ children }: MapWrapperProps) => {
+  const { selectedStateRef, handleClick } = useContext(MapContext);
+  const { zoomIn, zoomOut, zoomToElement, centerView } = useControls();
+  const [storedState] = useLocalStorage<string | null>("selected-state", null);
 
   useEffect(() => {
-    fetch("/api/map")
-      .then((res) => res.json())
-      .then((data) => {
-        setStates(data);
-      });
-  }, []);
-
-  const handleMouseEnter = (index: number) => {
-    if (States && !isMobile()) {
-      const newStates = [...States];
-      const [hoveredState] = newStates.splice(index, 1);
-
-      newStates.push(hoveredState);
-      setStates(newStates);
-
-      if (selectedState) {
-        const selectedIndex = newStates.findIndex(
-          (state) => state.uf === selectedState?.uf
-        );
-        const [newSelectedState] = newStates.splice(selectedIndex, 1);
-        newStates.push(newSelectedState);
-      }
+    if (selectedStateRef?.current) {
+      zoomToElement(selectedStateRef.current as unknown as HTMLElement, 4, 400);
     }
-  };
-
-  const handleClick = (uf: StateMap | null) => {
-    setSelectedState(uf === selectedState ? null : uf);
-
-    if (uf && States) {
-      const newStates = [...States];
-      const clickedIndex = newStates.findIndex((state) => state.uf === uf.uf);
-      const [clickedState] = newStates.splice(clickedIndex, 1);
-      newStates.push(clickedState);
-      setStates(newStates);
-    }
-  };
+  }, [selectedStateRef, storedState, zoomToElement]);
 
   const MapControls = () => {
-    const { zoomIn, zoomOut, resetTransform } = useControls();
-
     return (
-      <div className="absolute z-10 top-2 right-2">
-        <Generics.ButtonGroup variant="vertical">
-          <Button
-            color="gray"
-            variant="solid"
-            onClick={() => zoomIn()}
-            highContrast
+      <div className="absolute z-10 top-4 right-4">
+        <Generics.ButtonGroup>
+          <Generics.Button onClick={() => zoomIn()}>
+            <span className="material-symbols-rounded">add</span>
+          </Generics.Button>
+          <Generics.Button
+            onClick={() => {
+              centerView(isMobile() ? 2.8 : 2);
+            }}
           >
-            <PlusIcon />
-          </Button>
-          <Button
-            color="gray"
-            variant="solid"
-            onClick={() => resetTransform()}
-            highContrast
-          >
-            <ReloadIcon />
-          </Button>
-          <Button
-            color="gray"
-            variant="solid"
-            onClick={() => zoomOut()}
-            highContrast
-          >
-            <MinusIcon />
-          </Button>
+            <span className="material-symbols-rounded">refresh</span>
+          </Generics.Button>
+          <Generics.Button onClick={() => zoomOut()}>
+            <span className="material-symbols-rounded">remove</span>
+          </Generics.Button>
         </Generics.ButtonGroup>
       </div>
     );
   };
 
   return (
-    <TransformWrapper doubleClick={{ disabled: true }} initialScale={1}>
-      <div
-        className="relative flex-grow"
-        onClick={() => {
-          handleClick(null);
-        }}
-      >
-        <MapControls />
-        <TransformComponent>
-          <div
-            className="country-map-container p-8 pb-16 w-[calc(100dvw-4rem)] h-[calc(100vh-6rem)]"
+    <div className="relative h-full" onClick={() => handleClick(null)}>
+      <MapControls />
+      {children}
+    </div>
+  );
+};
 
-          >
-            <svg
-              className="h-full w-full"
-              viewBox="0 0 810 845"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g id="brazil-map" clipPath="url(#clip0_201_90)">
-                {States?.map((state, index) => (
-                  <StatePath
-                    key={index}
-                    state={state}
-                    index={index}
-                    selectedState={selectedState}
-                    handleMouseEnter={handleMouseEnter}
-                    handleClick={handleClick}
-                  />
-                ))}
-              </g>
-              <defs>
-                <clipPath id="clip0_201_90">
-                  <rect width="809.299" height="844.39" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
+export default function CountryMap() {
+  const [panning, setPanning] = useState(false);
+  
+  return (
+    <TransformWrapper
+      doubleClick={{ disabled: true }}
+      initialScale={isMobile() ? 2.8 : 2}
+      centerOnInit
+      onPanning={() => {
+        setPanning(true);
+      }}
+      onPanningStop={() => {
+        setPanning(false);
+      }}
+    >
+      <MapWrapper>
+        <TransformComponent wrapperClass="!w-full !h-full">
+          <div className="content-center p-8 sm:py-4 sm:pb-16">
+            <MapRenderer functional panning={panning} />
           </div>
         </TransformComponent>
-      </div>
+      </MapWrapper>
     </TransformWrapper>
   );
 }

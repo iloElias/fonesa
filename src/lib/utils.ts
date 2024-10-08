@@ -16,6 +16,9 @@ export function isMobile() {
       /Windows Phone/i
   ];
   
+  if (typeof navigator === 'undefined') {
+    return undefined;
+  }
   return toMatch.some((toMatchItem) => {
       return navigator.userAgent.match(toMatchItem);
   });
