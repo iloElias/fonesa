@@ -71,7 +71,7 @@ export default function Index() {
           <NavLinks />
         </Header>
         <div className="flex flex-1 justify-center gap-4 row sm:p-0 sm:pt-0 h-dvh w-full max-h-[54rem]">
-          <div className="relative container mx-auto flex flex-col-reverse sm:flex-row gap-4 p-4 px-0 pt-[84px] h-full w-full sm:rounded-lg">
+          <div className="relative container mx-auto flex flex-col sm:flex-row gap-4 p-4 px-0 pt-[84px] h-full w-full sm:rounded-lg">
             <Generics.Div
               id="options"
               className="flex flex-1 flex-col overflow-auto p-4 gap-4"
@@ -107,7 +107,7 @@ export default function Index() {
             </Generics.Div>
             <Generics.Div
               id="map"
-              className="flex flex-col flex-1 overflow-hidden"
+              className="flex flex-col flex-1 overflow-auto"
             >
               {stateActions.find((a) => a.key === selectedAction)?.component()}
             </Generics.Div>

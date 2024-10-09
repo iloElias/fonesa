@@ -7,7 +7,10 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { MapContext } from "@/pages";
 import FonesaIcons from "./fonesa-icons";
-import Image from "next/image";
+import { documents, videos } from "../functional/manual";
+import Link from "next/link";
+import ComponentHeader from "./container-header";
+import { useDebounce } from "@/lib/fonesa";
 <Generics.Button
   id="goto"
   variant="solid"
@@ -33,7 +36,7 @@ const ComponentWrapper = ({
   return (
     <div
       className={cn(
-        "flex flex-col flex-1 justify-between items-center w-full",
+        "relative flex flex-col flex-1 justify-between items-center w-full",
         className
       )}
       {...props}
@@ -43,44 +46,14 @@ const ComponentWrapper = ({
   );
 };
 
-interface ComponentHeaderProps {
-  title: string;
-  subTitle: string;
-  flagUrl?: string | null;
-}
-
-const ComponentHeader = ({
-  title,
-  subTitle,
-  flagUrl,
-}: ComponentHeaderProps) => {
-  return (
-    <div className="flex flex-row font-[inter] justify-between w-full">
-      <div
-        className={cn(
-          "flex flex-1 flex-col items-start gap-2 max-w-full",
-          flagUrl && "max-w-[calc(100%-90px)]"
-        )}
-      >
-        <strong className="max-h-min max-w-full text-lg truncate" title={title}>
-          {title}
-        </strong>
-        <p className="max-h-min max-w-full text-sm truncate" title={subTitle}>{subTitle}</p>
-      </div>
-      {flagUrl && (
-        <Image
-          src={flagUrl}
-          alt="Flag"
-          className="w-20 h-14 rounded-sm object-cover"
-          height={56}
-          width={140}
-        />
-      )}
-    </div>
-  );
-};
-
 const Validate = () => {
+  const debounce = useDebounce((value: string) => {
+    if (!value) {
+      return;
+    }
+    console.log(value);
+  }, 500);
+
   return (
     <ComponentWrapper className="p-4 gap-4">
       <div className="flex flex-col gap-4 w-full">
@@ -92,11 +65,15 @@ const Validate = () => {
       </div>
       <div className="flex-1 w-full">
         <Input
+          
           size="md"
           classNames={{
             inputWrapper: cn(
               "inline-flex transition-colors duration-[50ms] m-1 mx-0 items-center justify-between flex-row-reverse cursor-pointer rounded-lg gap-2 p-2 px-2 max-w-full min-w-full bg-[#fafafa] hover:bg-[#f1f1f1] dark:bg-[#212121] dark:hover:bg-[#282828] border-[#e1e1e1] dark:border-[#2e2e2e] border-2 data-[selected=true]:border-[#026fed] dark:data-[selected=true]:border-[#026fed] data-[selected=true]:bg-[#026fed]/10"
             ),
+          }}
+          onChange={(e) => {
+            debounce(e.target.value);
           }}
           type="email"
           placeholder="Pesquisar por..."
@@ -148,6 +125,8 @@ const Manual = () => {
                 <span>Documentos</span>
               </div>
             }
+            pt-2
+            gap-2
           />
           <Tab
             key="videos"
@@ -159,11 +138,39 @@ const Manual = () => {
           />
         </Tabs>
       </div>
-      {selectedTab === "documents" ? (
-        <div className="flex-1 w-full">documentos</div>
-      ) : (
-        <div className="flex-1 w-full">videos</div>
-      )}
+      <div className="flex w-full overflow-auto max-h-[calc(100% - 174px)] pt-2 gap-2 flex-1 flex-col items-start">
+        {selectedTab === "documents"
+          ? documents.map((doc, index) => (
+              <Link
+                key={index}
+                href={doc.url}
+                className="group flex flex-row gap-1 w-full p-2"
+              >
+                <span className="material-symbols-rounded">draft</span>
+                <p
+                  title={doc.name}
+                  className="group-hover:underline truncate max-w-[calc(100% - 14px)]"
+                >
+                  {doc.name}
+                </p>
+              </Link>
+            ))
+          : videos.map((video, index) => (
+              <Link
+                key={index}
+                href={video.url}
+                className="group flex flex-row gap-1 w-full p-2"
+              >
+                <span className="material-symbols-rounded">smart_display</span>
+                <p
+                  title={video.name}
+                  className="group-hover:underline truncate max-w-[calc(100% - 14px)]"
+                >
+                  {video.name}
+                </p>
+              </Link>
+            ))}
+      </div>
     </ComponentWrapper>
   );
 };

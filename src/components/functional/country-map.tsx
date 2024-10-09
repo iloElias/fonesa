@@ -11,6 +11,8 @@ import Generics from "../ui/generics";
 import { cn, isMobile } from "@/lib/utils";
 import { MapContext } from "@/pages";
 import { useLocalStorage } from "usehooks-ts";
+import { Tooltip } from "@nextui-org/react";
+import ComponentHeader from "../ui/container-header";
 
 interface StatePathProps {
   state: StateMap;
@@ -59,10 +61,31 @@ function StatePath({ state, index, functional }: StatePathProps) {
         }
       }}
     >
-      <g>
-        <mask id={`path-br-${state.uf}-inside`.toLowerCase()} fill="white">
-          <path d={state.mapPath} />
-        </mask>
+      <mask id={`path-br-${state.uf}-inside`.toLowerCase()} fill="white">
+        <path d={state.mapPath} />
+      </mask>
+      <Tooltip
+        delay={250}
+        placement="right"
+        classNames={{
+          content: "w-34 p-0 text-[#212121] bg-transparent bg-[#ffffff]/95 backdrop-blur-xl border-none",
+        }}
+        radius="sm"
+        content={
+          <ComponentHeader
+            title={state.name}
+            subTitle={state.sysShortName}
+            flagUrl={state.flagUrl}
+            classNames={{
+              wrapper: "p-2 gap-4",
+              label: "gap-1 max-w-[calc(100%-40px)]",
+              flagUrl: "w-12 h-8",
+              title: "text-xs",
+              subTitle: "text-xs",
+            }}
+          />
+        }
+      >
         <path
           id={`BR-${state.uf}`}
           mask={`url(#path-br-${state.uf}-inside)`.toLowerCase()}
@@ -75,7 +98,7 @@ function StatePath({ state, index, functional }: StatePathProps) {
           )}
           d={state.mapPath}
         />
-      </g>
+      </Tooltip>
       <path
         id={`UF-${state.uf}`}
         className="fill-neutral-900 state-uf w-[2dvh] h-[2dvh] pointer-events-none" // dark:fill-neutral-100
@@ -155,7 +178,7 @@ const MapWrapper = ({ children }: MapWrapperProps) => {
 
 export default function CountryMap() {
   const [panning, setPanning] = useState(false);
-  
+
   return (
     <TransformWrapper
       doubleClick={{ disabled: true }}
