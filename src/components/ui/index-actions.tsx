@@ -143,8 +143,8 @@ const Manual = () => {
     setStoredTab(selectedTab);
 
     if (selectedTab === "document") {
-      fetch("/api/graphql", {
-        // https://wiki.agrodefesa.go.gov.br/graphql
+      fetch("https://wiki.agrodefesa.go.gov.br/graphql", {
+        // 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
