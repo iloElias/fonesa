@@ -132,5 +132,41 @@ function OpenBlankBook({ className, style }: FonesaIconsProps) {
   );
 }
 
-const FonesaIcons = { OldTelephone, OpenBlankBook, InfoToken };
+const Banner = ({ className, style }: FonesaIconsProps) => {
+  return (
+    <svg
+      width="1920"
+      height="473"
+      viewBox="0 0 1920 473"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={style}
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M1262.42 541.482H1534.91C1559.99 541.482 1580.32 521.179 1580.32 496.133V192.784C1580.32 183.764 1576.73 175.113 1570.34 168.735L1499.47 97.9616C1493.08 91.5833 1484.42 88 1475.38 88H1262.42C1237.33 88 1217 108.303 1217 133.348V496.133C1217 521.179 1237.33 541.482 1262.42 541.482ZM1473.6 201.37H1541.17C1547.24 201.37 1550.28 194.043 1545.98 189.758L1478.41 122.286C1474.12 118.001 1466.78 121.036 1466.78 127.096V194.568C1466.78 198.325 1469.83 201.37 1473.6 201.37ZM1346.59 327.05C1337.73 318.196 1323.35 318.196 1314.48 327.05C1305.61 335.905 1305.61 350.262 1314.48 359.116L1359.9 404.465C1364.32 408.88 1370.37 411.279 1376.62 411.096C1382.87 410.912 1388.77 408.163 1392.92 403.495L1483.75 301.462C1492.09 292.103 1491.24 277.771 1481.87 269.451C1472.5 261.132 1458.14 261.975 1449.81 271.334L1374.98 355.395L1346.59 327.05Z"
+        className="fill-[#f2f2f2]"
+      />
+      <circle  cx="1683.5"  cy="242.5"   r="62.5"                       className="fill-[#5A7DFC]" />
+      <ellipse cx="1053"    cy="278.5"  rx="22" ry="21.5"               className="fill-[#5A7DFC]" />
+      <circle  cx="1384.29" cy="32.2905" r="31.8511"                    className="fill-[#5A7DFC]" />
+      <circle  cx="28"      cy="439"     r="102"                        className="fill-[#424242]" />
+      <circle  cx="1780.39" cy="105.39"  r="28.3904"                    className="fill-[#565656]" />
+      <circle  cx="1106.57" cy="169.568" r="53.1598"                    className="fill-[#565656]" />
+      <circle  cx="1098"    cy="402"     r="62"                         className="fill-[#575757]" />
+      <circle  cx="1842"    cy="434"     r="86"                         className="fill-[#9E9E9E]" />
+      <circle  cx="1188.03" cy="77.0305" r="18.4583"                    className="fill-[#9E9E9E]" />
+      <rect     x="1155"     y="220"    rx="10" width="168" height="37" className="fill-[#424242]" />
+      <rect     x="1515"     y="333"    rx="10" width="168" height="37" className="fill-[#424242]" />
+      <rect     x="1155"     y="267"    rx="10" width="168" height="37" className="fill-[#424242]" />
+      <rect     x="1515"     y="380"    rx="10" width="168" height="37" className="fill-[#424242]" />
+      <rect     x="1155"     y="314"    rx="10" width="93"  height="37" className="fill-[#424242]" />
+      <rect     x="1515"     y="427"    rx="10" width="93"  height="37" className="fill-[#424242]" />
+    </svg>
+  );
+};
+
+const FonesaIcons = { OldTelephone, OpenBlankBook, InfoToken, Banner };
 export default FonesaIcons;

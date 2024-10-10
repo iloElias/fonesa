@@ -1,31 +1,31 @@
+import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 // import Generics from "../ui/generics";
 // import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 export const NavLinks = () => {
+  const router = useRouter();
+
+  const linkClasses = (href: string) =>
+    `group relative flex flex-row transition-colors duration-[50ms] items-center gap-2 ${
+      router.pathname === href ? "text-[#fafafa] after:absolute after:-bottom-3 after:h-[3px] after:w-full after:bg-[#fafafa] after:rounded-t-md" : ""
+    }`;
+
   return (
     <>
-      <Link
-        href="/"
-        className="group flex flex-row transition-colors duration-[50ms] items-center gap-2"
-      >
+      <Link href="/" className={cn(linkClasses("/"))}>
         <span className="material-symbols-rounded">home</span>
         <strong className="group-hover:underline min-w-max">Home</strong>
       </Link>
-      <span className="w-px h-6 bg-slate-300 hidden sm:block" />
-      <Link
-        href="/"
-        className="group flex flex-row transition-colors duration-[50ms] items-center gap-2"
-      >
+      <span className="w-px h-6 bg-[#2e2e2e] hidden sm:block" />
+      <Link href="/about" className={cn(linkClasses("/about"))}>
         <span className="material-symbols-rounded">group</span>
         <strong className="group-hover:underline min-w-max">Sobre nós</strong>
       </Link>
-      <span className="w-px h-6 bg-slate-300 hidden sm:block" />
-      <Link
-        href="/"
-        className="group flex flex-row transition-colors duration-[50ms] items-center gap-2"
-      >
+      <span className="w-px h-6 bg-[#2e2e2e] hidden sm:block" />
+      <Link href="/contact" className={cn(linkClasses("/contact"))}>
         <span className="material-symbols-rounded">call</span>
         <strong className="group-hover:underline min-w-max">Contato</strong>
       </Link>

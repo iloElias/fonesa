@@ -2,23 +2,14 @@
 import { cn } from "@/lib/utils";
 import CountryMap from "../functional/country-map";
 import Generics from "./generics";
-import { Input, Tab, Tabs } from "@nextui-org/react";
+import { Input, Spinner, Tab, Tabs } from "@nextui-org/react";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { MapContext } from "@/pages";
 import FonesaIcons from "./fonesa-icons";
-import { documents, videos } from "../functional/manual";
 import Link from "next/link";
 import ComponentHeader from "./container-header";
 import { useDebounce } from "@/lib/fonesa";
-<Generics.Button
-  id="goto"
-  variant="solid"
-  color="primary"
-  className="w-[324px] h-12"
->
-  Acessar Manual
-</Generics.Button>;
 
 export interface StateActions {
   key: string;
@@ -26,6 +17,17 @@ export interface StateActions {
   description: string;
   icon: string;
   component: () => ReactElement;
+}
+
+interface Page {
+  id: string;
+  path: string;
+  title: string;
+  isFolder: boolean;
+  pageId: string;
+  parent: string;
+  locale: string;
+  __typename: string;
 }
 
 const ComponentWrapper = ({
@@ -44,6 +46,51 @@ const ComponentWrapper = ({
       {children}
     </div>
   );
+};
+
+interface RenderManualsProps {
+  data: Page[] | null;
+  type: string;
+}
+
+const RenderManuals = ({ data, type = "document" }: RenderManualsProps) => {
+  if (data === null) {
+    return (
+      <div className="flex flex-col justify-center items-center w-full h-full">
+        <Spinner />
+        <p>Carregando...</p>
+      </div>
+    );
+  }
+  if (data.length <= 0) {
+    return (
+      <div className="flex flex-col justify-center items-center w-full h-full">
+        {/* <FonesaIcons.NoData /> */}
+        <p>Nenhum documento encontrado</p>
+      </div>
+    );
+  }
+
+  return data.map((item, index) => (
+    <Link
+      key={index}
+      href={`https://wiki.agrodefesa.go.gov.br/${item.locale}/${item.path}`}
+      className="group flex flex-row gap-4 w-full p-2"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span className="material-symbols-rounded">
+        {type === "document" ? "draft" : "smart_display"}
+      </span>
+      <p
+        title={item.title}
+        className="group-hover:underline truncate flex-1 max-w-[calc(100% - 14px)]"
+      >
+        {item.title}
+      </p>
+      <span className="material-symbols-rounded">open_in_new</span>
+    </Link>
+  ));
 };
 
 const Validate = () => {
@@ -65,7 +112,6 @@ const Validate = () => {
       </div>
       <div className="flex-1 w-full">
         <Input
-          
           size="md"
           classNames={{
             inputWrapper: cn(
@@ -88,14 +134,37 @@ const Validate = () => {
 };
 
 const Manual = () => {
-  const [storedTab, setStoredTab] = useLocalStorage(
-    "manual-state",
-    "documents"
-  );
+  const [storedTab, setStoredTab] = useLocalStorage("manual-state", "document");
   const [selectedTab, setSelectedTab] = useState<string>(storedTab);
+
+  const [data, setData] = useState<Page[] | null>(null);
 
   useEffect(() => {
     setStoredTab(selectedTab);
+
+    if (selectedTab === "document") {
+      fetch("/api/graphql", {
+        // https://wiki.agrodefesa.go.gov.br/graphql
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([
+          {
+            operationName: null,
+            variables: {
+              path: "home",
+              locale: "pt-br",
+            },
+            extensions: {},
+            query: `query ($path: String, $locale: String!) { pages { tree(path: $path, mode: ALL, locale: $locale, includeAncestors: true) { id path title isFolder pageId parent locale __typename } __typename } }`,
+          },
+        ]),
+      })
+        .then((response) => response.json())
+        .then((data) => setData(data[0].data.pages.tree))
+        .catch(() => setData([]));
+    }
   }, [selectedTab, setStoredTab]);
 
   return (
@@ -119,7 +188,7 @@ const Manual = () => {
           }}
         >
           <Tab
-            key="documents"
+            key="document"
             title={
               <div className="flex items-center space-x-2">
                 <span>Documentos</span>
@@ -128,48 +197,20 @@ const Manual = () => {
             pt-2
             gap-2
           />
-          <Tab
-            key="videos"
+          {/* <Tab
+            disabled={true}
+            
+            key="video"
             title={
               <div className="flex items-center space-x-2">
                 <span>Videos</span>
               </div>
             }
-          />
+          /> */}
         </Tabs>
       </div>
       <div className="flex w-full overflow-auto max-h-[calc(100% - 174px)] pt-2 gap-2 flex-1 flex-col items-start">
-        {selectedTab === "documents"
-          ? documents.map((doc, index) => (
-              <Link
-                key={index}
-                href={doc.url}
-                className="group flex flex-row gap-1 w-full p-2"
-              >
-                <span className="material-symbols-rounded">draft</span>
-                <p
-                  title={doc.name}
-                  className="group-hover:underline truncate max-w-[calc(100% - 14px)]"
-                >
-                  {doc.name}
-                </p>
-              </Link>
-            ))
-          : videos.map((video, index) => (
-              <Link
-                key={index}
-                href={video.url}
-                className="group flex flex-row gap-1 w-full p-2"
-              >
-                <span className="material-symbols-rounded">smart_display</span>
-                <p
-                  title={video.name}
-                  className="group-hover:underline truncate max-w-[calc(100% - 14px)]"
-                >
-                  {video.name}
-                </p>
-              </Link>
-            ))}
+        <RenderManuals data={data} type={selectedTab} />
       </div>
     </ComponentWrapper>
   );
@@ -226,7 +267,6 @@ const Contacts = () => {
           <FonesaIcons.OldTelephone />
           <div className="flex gap-4 w-full">
             <Generics.Button
-              variant="solid"
               color="default"
               className="flex-1 h-12"
               onClick={() => {
@@ -235,13 +275,7 @@ const Contacts = () => {
             >
               Voltar
             </Generics.Button>
-            <Generics.Button
-              variant="solid"
-              color="primary"
-              className="flex-1 h-12"
-            >
-              Continuar
-            </Generics.Button>
+            <Generics.Button className="flex-1 h-12">Continuar</Generics.Button>
           </div>
         </div>
       </div>
@@ -299,7 +333,6 @@ const Transparency = () => {
           <FonesaIcons.InfoToken />
           <div className="flex gap-4 w-full">
             <Generics.Button
-              variant="solid"
               color="default"
               className="flex-1 h-12"
               onClick={() => {
@@ -308,13 +341,7 @@ const Transparency = () => {
             >
               Voltar
             </Generics.Button>
-            <Generics.Button
-              variant="solid"
-              color="primary"
-              className="flex-1 h-12"
-            >
-              Continuar
-            </Generics.Button>
+            <Generics.Button className="flex-1 h-12">Continuar</Generics.Button>
           </div>
         </div>
       </div>

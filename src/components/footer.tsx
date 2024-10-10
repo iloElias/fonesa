@@ -7,12 +7,12 @@ export interface FooterProps {
 export default function Footer() {
   return (
     <>
-      {/* <footer className="absolute bottom-0 w-full bg-zinc-50 text-center dark:bg-neutral-700 lg:text-left">
-        <div className="w-full max-w- bg-black/5 p-4 text-center text-surface dark:text-white">
-          © 2023 Copyright:
-          <a href="https://tw-elements.com/">TW Elements</a>
+      <footer className="w-full text-center border-t-2 border-[#e0e0e0] dark:border-[#2e2e2e]">
+        <div className="w-full p-4 text-center text-surface text-[#212121] dark:text-[#fafafa]">
+          Desenvolvido por Kennedy Arantes © 2024. Todos os direitos reservados
+          | Fonesa
         </div>
-      </footer> */}
+      </footer>
     </>
   );
 }

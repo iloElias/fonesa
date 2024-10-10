@@ -19,6 +19,7 @@ const Div = ({
     <div
       className={cn(
         "transition-colors overflow-auto duration-[50ms] bg-[#fafafa] dark:bg-[#212121] border-2 border-[#e0e0e0] dark:border-[#2e2e2e] rounded-lg",
+        "[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500",
         className
       )}
       {...props}

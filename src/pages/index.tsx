@@ -9,6 +9,7 @@ import { stateActions } from "@/components/ui/index-actions";
 import { RadioGroup } from "@nextui-org/react";
 import Footer from "@/components/footer";
 import { useLocalStorage } from "usehooks-ts";
+import FonesaIcons from "@/components/ui/fonesa-icons";
 
 interface MapContextType {
   States: StateMap[] | null;
@@ -59,7 +60,7 @@ export default function Index() {
         selectedStateRef,
       }}
     >
-      <div className="transition-background duration-[50ms] bg-neutral-100 dark:bg-zinc-800 w-lvw min-h-dvh">
+      <div className="flex flex-col transition-background duration-[50ms] bg-[#f2f2f2] dark:bg-[#191919] max-w-[100svw] min-h-dvh">
         <Header
           last={
             <>
@@ -70,11 +71,30 @@ export default function Index() {
         >
           <NavLinks />
         </Header>
-        <div className="flex flex-1 justify-center gap-4 row sm:p-0 sm:pt-0 h-dvh w-full max-h-[54rem]">
-          <div className="relative container mx-auto flex flex-col sm:flex-row gap-4 p-4 px-0 pt-[84px] h-full w-full sm:rounded-lg">
+        <div className="flex flex-col items-center bg-[#212121] max-w-[100svw] overflow-hidden">
+          <div className="relative container flex flex-col items-center mt-8">
+            <FonesaIcons.Banner className="min-w-[56rem]" />
+            <div className="absolute top-14 left-0 sm:top-36 max-w-[40rem] flex flex-col items-start gap-8 m-4 font-[inter] text-[#fafafa] rounded-md backdrop-blur-md">
+              <h2 className="font-bold text-6xl">
+                Bem-vindo ao <span className="text-[#5b7dfb]">Fonesa</span>
+              </h2>
+              <p>
+                Sua plataforma confiável para validação de guias de trânsito de
+                animais, vegetais e outros produtos agropecuários. Aqui, você
+                encontra um serviço ágil e seguro para verificar e acompanhar a
+                regularidade das suas guias, garantindo conformidade com as
+                normas vigentes e facilitando o transporte seguro e legalizado.
+              </p>
+            </div>
+          </div>
+        </div>
+        {/* <span className="min-h-[65px]" /> */}
+
+        <div className="flex flex-1 justify-center gap-4 row sm:p-0 sm:pt-0 h-dvh w-full">
+          <div className="relative container mx-auto flex flex-1 flex-col sm:flex-row gap-[30px] p-[60px] px-0 h-full w-full sm:rounded-lg">
             <Generics.Div
               id="options"
-              className="flex flex-1 flex-col overflow-auto p-4 gap-4"
+              className="flex flex-1 flex-col overflow-auto p-4 gap-4 sm:h-[calc(100vh-8rem)] sm:max-h-[52rem]"
             >
               <div className="flex w-full">
                 <div className="flex flex-col items-start font-[inter] gap-2 w-full">
@@ -107,13 +127,13 @@ export default function Index() {
             </Generics.Div>
             <Generics.Div
               id="map"
-              className="flex flex-col flex-1 overflow-auto"
+              className="flex flex-col flex-1 overflow-auto min-h-[30rem] max-h-[10rem] sm:min-h-[auto] sm:max-h-[52rem] sm:h-[calc(100vh-8rem)]"
             >
               {stateActions.find((a) => a.key === selectedAction)?.component()}
             </Generics.Div>
           </div>
         </div>
-        <Footer></Footer>
+        <Footer />
       </div>
     </MapContext.Provider>
   );
