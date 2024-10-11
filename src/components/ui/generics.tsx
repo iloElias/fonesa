@@ -84,7 +84,7 @@ export const Radio = ({ children, startContent, ...props }: RadioProps) => {
     <NextRadio
       classNames={{
         base: cn(
-          "inline-flex transition-colors duration-[50ms] m-1 mx-0 items-center justify-between flex-row-reverse cursor-pointer rounded-lg gap-2 p-2 pl-0 max-w-full min-w-full background-transparent",
+          "inline-flex transition-colors duration-[50ms] m-0 mx-0 items-center justify-between flex-row-reverse cursor-pointer rounded-lg gap-2 p-2 pl-0 max-h-[56px] max-w-full min-w-full background-transparent",
           "data-[selected=true]:bg-[#026fed]/10 hover:bg-[#026fed]/5 border-none border-[#e1e1e1] dark:border-[#2e2e2e] data-[selected=true]:border-[#026fed]"
         ),
         labelWrapper: cn("ml-0"),

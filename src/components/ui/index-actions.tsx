@@ -2,7 +2,14 @@
 import { cn } from "@/lib/utils";
 import CountryMap from "../functional/country-map";
 import Generics from "./generics";
-import { Input, Spinner, Tab, Tabs } from "@nextui-org/react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Input,
+  Spinner,
+  Tab,
+  Tabs,
+} from "@nextui-org/react";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { MapContext } from "@/pages";
@@ -10,6 +17,8 @@ import FonesaIcons from "./fonesa-icons";
 import Link from "next/link";
 import ComponentHeader from "./container-header";
 import { useDebounce } from "@/lib/fonesa";
+import { mapPaths } from "../functional/map";
+import Image from "next/image";
 
 export interface StateActions {
   key: string;
@@ -94,6 +103,8 @@ const RenderManuals = ({ data, type = "document" }: RenderManualsProps) => {
 };
 
 const Validate = () => {
+  const [selectedState, setSelectedState] = useState<string | null>(null);
+
   const debounce = useDebounce((value: string) => {
     if (!value) {
       return;
@@ -110,24 +121,42 @@ const Validate = () => {
         />
         <Generics.Divisor direction="horizontal" />
       </div>
-      <div className="flex-1 w-full">
-        <Input
+      <div className="flex-1 flex flex-col gap-4 w-full">
+        <Autocomplete
+          onSelectionChange={(key) => setSelectedState()}
           size="md"
-          classNames={{
-            inputWrapper: cn(
-              "inline-flex transition-colors duration-[50ms] m-1 mx-0 items-center justify-between flex-row-reverse cursor-pointer rounded-lg gap-2 p-2 px-2 max-w-full min-w-full bg-[#fafafa] hover:bg-[#f1f1f1] dark:bg-[#212121] dark:hover:bg-[#282828] border-[#e1e1e1] dark:border-[#2e2e2e] border-2 data-[selected=true]:border-[#026fed] dark:data-[selected=true]:border-[#026fed] data-[selected=true]:bg-[#026fed]/10"
-            ),
-          }}
-          onChange={(e) => {
-            debounce(e.target.value);
-          }}
-          type="email"
-          placeholder="Pesquisar por..."
-          labelPlacement="outside"
-          startContent={
-            <span className="material-symbols-rounded">search</span>
-          }
-        />
+          variant="flat"
+          label="Selecione o estado"
+        >
+          {mapPaths.map((item) => (
+            <AutocompleteItem
+              color="default"
+              className="text-[#212121] dark:text-[#fafafa]"
+              key={item.uf}
+              startContent={
+                <Image
+                  alt={item.name}
+                  src={item.flagUrl}
+                  width={24}
+                  height={24}
+                />
+              }
+            >
+              {item.name}
+            </AutocompleteItem>
+          ))}
+        </Autocomplete>
+        {selectedState && (
+          <Input
+            size="md"
+            variant="flat"
+            onChange={(e) => {
+              debounce(e.target.value);
+            }}
+            type="email"
+            label="Pesquisar por..."
+          />
+        )}
       </div>
     </ComponentWrapper>
   );
