@@ -1,15 +1,15 @@
 "use client";
-import { mapPaths, StateMap } from "@/components/functional/map";
-import { NavLinks, NavLinksMobile } from "@/components/functional/nav-links";
-import ThemeButton from "@/components/functional/theme-button";
-import Header from "@/components/header";
+import { mapPaths, StateMap } from "@/lib/map";
+import { NavLinks, NavLinksMobile } from "@components/nav-links";
+import ThemeButton from "@components/ui/theme-button";
+import Header from "@components/header";
 import { createContext, useState } from "react";
-import Generics from "@/components/ui/generics";
-import { stateActions } from "@/components/ui/index-actions";
+import Generics from "@components/ui/generics";
+import { stateActions } from "@components/ui/index-actions";
 import { RadioGroup } from "@nextui-org/react";
-import Footer from "@/components/footer";
+import Footer from "@components/footer";
 import { useLocalStorage } from "usehooks-ts";
-import FonesaIcons from "@/components/ui/fonesa-icons";
+import FonesaIcons from "@components/ui/fonesa-icons";
 
 interface MapContextType {
   States: StateMap[] | null;
@@ -74,9 +74,9 @@ export default function Index() {
         <div className="flex flex-col items-center bg-[#212121] max-w-[100svw] overflow-hidden">
           <div className="relative container flex flex-col items-center mt-8">
             <FonesaIcons.Banner className="min-w-[56rem]" />
-            <div className="absolute top-14 left-0 sm:top-36 max-w-[40rem] flex flex-col items-start gap-8 m-4 font-[inter] text-[#fafafa] rounded-md backdrop-blur-md">
+            <div className="absolute top-14 left-0 sm:top-36 max-w-[40rem] flex flex-col items-start gap-8 m-4 font-[inter] text-[#fafafa] rounded-md">
               <h2 className="font-bold text-6xl">
-                Bem-vindo ao <span className="text-[#5b7dfb]">Fonesa</span>
+                Bem-vindo a <span className="text-[#5b7dfb]">PGA 2</span>
               </h2>
               <p>
                 Sua plataforma confiável para validação de guias de trânsito de
@@ -88,8 +88,6 @@ export default function Index() {
             </div>
           </div>
         </div>
-        {/* <span className="min-h-[65px]" /> */}
-
         <div className="flex flex-1 justify-center gap-4 row sm:p-0 sm:pt-0 h-dvh w-full">
           <div className="relative container mx-auto flex flex-1 flex-col sm:flex-row gap-[30px] p-[60px] px-0 h-full w-full sm:rounded-lg">
             <Generics.Div

@@ -23,3 +23,9 @@ export function isMobile() {
       return navigator.userAgent.match(toMatchItem);
   });
 }
+
+
+export function isEmpty(value: string) {
+  return value.trim().length === 0;
+}
+

@@ -1,6 +1,6 @@
 "use client";
 import { useTheme } from "next-themes";
-import Generics from "../ui/generics";
+import Generics from "./generics";
 
 export default function ThemeButton() {
   const { theme, setTheme } = useTheme();

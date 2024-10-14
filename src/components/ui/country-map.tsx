@@ -1,18 +1,18 @@
 "use client";
-import { StateMap } from "@components/functional/map";
+import { StateMap } from "@/lib/map";
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   TransformComponent,
   TransformWrapper,
   useControls,
 } from "react-zoom-pan-pinch";
-import Generics from "../ui/generics";
+import Generics from "./generics";
 
 import { cn, isMobile } from "@/lib/utils";
 import { MapContext } from "@/pages";
 import { useLocalStorage } from "usehooks-ts";
 import { Tooltip } from "@nextui-org/react";
-import ComponentHeader from "../ui/container-header";
+import ComponentHeader from "./container-header";
 
 interface StatePathProps {
   state: StateMap;
