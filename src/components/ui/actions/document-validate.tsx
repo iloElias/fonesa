@@ -152,13 +152,22 @@ export const Validate = () => {
                   <BarcodeScanner
                     className="absolute z-10 top-0 left-0 w-full h-full"
                     onCapture={(barcode) => {
-                      applyData("barcode", barcode.format);
+                      if (barcode) {
+                        applyData("barcode", barcode.format);
+                        return;
+                      }
+                      applyData("barcode", "Nenhum código encontrado");
                     }}
                   />
                   <NoCameraFill className="text-[8rem] text-[#b1b1b1] dark:text-[#525252] select-none" />
                 </div>
               </ModalBody>
               <ModalFooter>
+                {inputData["barcode"] && (
+                  <p className="flex-1 text-center text-[#212121] dark:text-[#fafafa]">
+                    {inputData["barcode"]}
+                  </p>
+                )}
                 <Button color="primary" variant="flat">
                   Buscar
                 </Button>
