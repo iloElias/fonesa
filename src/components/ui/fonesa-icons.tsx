@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 interface FonesaIconsProps {
   className?: string;
   style?: React.CSSProperties;
@@ -132,7 +134,7 @@ function OpenBlankBook({ className, style }: FonesaIconsProps) {
   );
 }
 
-const Banner = ({ className, style }: FonesaIconsProps) => {
+export const Banner = ({ className, style }: FonesaIconsProps) => {
   return (
     <svg
       width="1920"
@@ -149,24 +151,147 @@ const Banner = ({ className, style }: FonesaIconsProps) => {
         d="M1262.42 541.482H1534.91C1559.99 541.482 1580.32 521.179 1580.32 496.133V192.784C1580.32 183.764 1576.73 175.113 1570.34 168.735L1499.47 97.9616C1493.08 91.5833 1484.42 88 1475.38 88H1262.42C1237.33 88 1217 108.303 1217 133.348V496.133C1217 521.179 1237.33 541.482 1262.42 541.482ZM1473.6 201.37H1541.17C1547.24 201.37 1550.28 194.043 1545.98 189.758L1478.41 122.286C1474.12 118.001 1466.78 121.036 1466.78 127.096V194.568C1466.78 198.325 1469.83 201.37 1473.6 201.37ZM1346.59 327.05C1337.73 318.196 1323.35 318.196 1314.48 327.05C1305.61 335.905 1305.61 350.262 1314.48 359.116L1359.9 404.465C1364.32 408.88 1370.37 411.279 1376.62 411.096C1382.87 410.912 1388.77 408.163 1392.92 403.495L1483.75 301.462C1492.09 292.103 1491.24 277.771 1481.87 269.451C1472.5 261.132 1458.14 261.975 1449.81 271.334L1374.98 355.395L1346.59 327.05Z"
         className="fill-[#f2f2f2]"
       />
-      <circle  cx="1683.5"  cy="242.5"   r="62.5"                       className="fill-[#5A7DFC]" />
-      <ellipse cx="1053"    cy="278.5"  rx="22" ry="21.5"               className="fill-[#5A7DFC]" />
-      <circle  cx="1384.29" cy="32.2905" r="31.8511"                    className="fill-[#5A7DFC]" />
-      <circle  cx="28"      cy="439"     r="102"                        className="fill-[#424242]" />
-      <circle  cx="1780.39" cy="105.39"  r="28.3904"                    className="fill-[#565656]" />
-      <circle  cx="1106.57" cy="169.568" r="53.1598"                    className="fill-[#565656]" />
-      <circle  cx="1098"    cy="402"     r="62"                         className="fill-[#575757]" />
-      <circle  cx="1842"    cy="434"     r="86"                         className="fill-[#9E9E9E]" />
-      <circle  cx="1188.03" cy="77.0305" r="18.4583"                    className="fill-[#9E9E9E]" />
-      <rect     x="1155"     y="220"    rx="10" width="168" height="37" className="fill-[#424242]" />
-      <rect     x="1515"     y="333"    rx="10" width="168" height="37" className="fill-[#424242]" />
-      <rect     x="1155"     y="267"    rx="10" width="168" height="37" className="fill-[#424242]" />
-      <rect     x="1515"     y="380"    rx="10" width="168" height="37" className="fill-[#424242]" />
-      <rect     x="1155"     y="314"    rx="10" width="93"  height="37" className="fill-[#424242]" />
-      <rect     x="1515"     y="427"    rx="10" width="93"  height="37" className="fill-[#424242]" />
+      <circle cx="1683.5" cy="242.5" r="62.5" className="fill-[#5A7DFC]" />
+      <ellipse
+        cx="1053"
+        cy="278.5"
+        rx="22"
+        ry="21.5"
+        className="fill-[#5A7DFC]"
+      />
+      <circle
+        cx="1384.29"
+        cy="32.2905"
+        r="31.8511"
+        className="fill-[#5A7DFC]"
+      />
+      <circle cx="28" cy="439" r="102" className="fill-[#424242]" />
+      <circle cx="1780.39" cy="105.39" r="28.3904" className="fill-[#565656]" />
+      <circle
+        cx="1106.57"
+        cy="169.568"
+        r="53.1598"
+        className="fill-[#565656]"
+      />
+      <circle cx="1098" cy="402" r="62" className="fill-[#575757]" />
+      <circle cx="1842" cy="434" r="86" className="fill-[#9E9E9E]" />
+      <circle
+        cx="1188.03"
+        cy="77.0305"
+        r="18.4583"
+        className="fill-[#9E9E9E]"
+      />
+      <rect
+        x="1155"
+        y="220"
+        rx="10"
+        width="168"
+        height="37"
+        className="fill-[#424242]"
+      />
+      <rect
+        x="1515"
+        y="333"
+        rx="10"
+        width="168"
+        height="37"
+        className="fill-[#424242]"
+      />
+      <rect
+        x="1155"
+        y="267"
+        rx="10"
+        width="168"
+        height="37"
+        className="fill-[#424242]"
+      />
+      <rect
+        x="1515"
+        y="380"
+        rx="10"
+        width="168"
+        height="37"
+        className="fill-[#424242]"
+      />
+      <rect
+        x="1155"
+        y="314"
+        rx="10"
+        width="93"
+        height="37"
+        className="fill-[#424242]"
+      />
+      <rect
+        x="1515"
+        y="427"
+        rx="10"
+        width="93"
+        height="37"
+        className="fill-[#424242]"
+      />
     </svg>
   );
 };
 
-const FonesaIcons = { OldTelephone, OpenBlankBook, InfoToken, Banner };
+export const CameraFill = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 22 22"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    style={style}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M1 18C1 19.1046 1.89543 20 3 20H19C20.1046 20 21 19.1046 21 18V7.5C21 6.39543 20.1046 5.5 19 5.5H17.6606C16.9429 5.5 16.2802 5.11543 15.9242 4.49228L15.0758 3.00772C14.7198 2.38457 14.0571 2 13.3394 2H8.66065C7.94293 2 7.28024 2.38457 6.92416 3.00772L6.07584 4.49228C5.71976 5.11543 5.05707 5.5 4.33935 5.5H3C1.89543 5.5 1 6.39543 1 7.5V18ZM11 16C13.2091 16 15 14.2091 15 12C15 9.79086 13.2091 8 11 8C8.79086 8 7 9.79086 7 12C7 14.2091 8.79086 16 11 16Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const NoCameraFill = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 22 22"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    style={style}
+  >
+    <path
+      d="M1.28861 3.37937C0.903731 2.99447 0.903751 2.37044 1.28865 1.98557C1.67355 1.60069 2.29758 1.60071 2.68245 1.98561L5.08138 4.38465L8.56808 7.87156L14.1283 13.4321L19.401 18.7051L20.0145 19.3176C20.3994 19.7025 20.3993 20.3265 20.0144 20.7114C19.6295 21.0962 19.0055 21.0962 18.6206 20.7113L1.28861 3.37937Z"
+      fill="currentColor"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M1.28865 16.7691C1.28865 17.8577 2.17115 18.7402 3.25978 18.7402H19.0289C19.1561 18.7402 19.2805 18.7282 19.401 18.7051L14.1283 13.4321C13.4054 14.2686 12.3367 14.7979 11.1443 14.7979C8.96707 14.7979 7.20205 13.0329 7.20205 10.8557C7.20205 9.66324 7.73147 8.59446 8.56808 7.87156L5.08138 4.38465C4.91974 4.42719 4.75137 4.44949 4.57981 4.44949H3.25978C2.17115 4.44949 1.28865 5.33199 1.28865 6.42062V16.7691ZM14.8557 12.1883L20.6114 17.9444C20.8555 17.6162 21 17.2095 21 16.7691V6.42062C21 5.33199 20.1175 4.44949 19.0289 4.44949H17.7088C17.0015 4.44949 16.3484 4.07047 15.9974 3.45631L15.1613 1.99318C14.8104 1.37902 14.1573 1 13.4499 1H8.83873C8.13138 1 7.47825 1.37902 7.12731 1.99318L6.29123 3.45631C6.27105 3.49162 6.24987 3.52616 6.22774 3.55989L9.8119 7.14426C10.2281 6.99483 10.6767 6.91341 11.1443 6.91341C13.3216 6.91341 15.0866 8.67842 15.0866 10.8557C15.0866 11.3234 15.0051 11.7721 14.8557 12.1883Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const X = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 22 22"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    style={style}
+  >
+    <path
+      d="M3.39382 16.7045C2.86873 17.2296 2.86873 18.081 3.39382 18.6061C3.91891 19.1312 4.77026 19.1312 5.29535 18.6061L10.9999 12.9015L16.7045 18.6062C17.2296 19.1313 18.081 19.1313 18.6061 18.6062C19.1312 18.0811 19.1312 17.2297 18.6061 16.7046L12.9014 11L18.6061 5.29535C19.1312 4.77026 19.1312 3.91891 18.6061 3.39382C18.081 2.86873 17.2296 2.86873 16.7045 3.39382L10.9999 9.09847L5.29535 3.39393C4.77026 2.86884 3.91891 2.86884 3.39382 3.39393C2.86873 3.91902 2.86873 4.77037 3.39382 5.29546L9.09836 11L3.39382 16.7045Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const FonesaIcons = {
+  OldTelephone,
+  OpenBlankBook,
+  InfoToken,
+  Banner,
+  CameraFill,
+  X,
+};
 export default FonesaIcons;

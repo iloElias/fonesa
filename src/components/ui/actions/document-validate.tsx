@@ -1,10 +1,8 @@
-import { useDebounce } from "@/lib/fonesa";
 import {
   Autocomplete,
   AutocompleteItem,
   Button,
   Image,
-  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -20,9 +18,11 @@ import ComponentHeader from "../container-header";
 import Generics from "../generics";
 import { mapPaths } from "@/lib/map";
 import { Document, Documents } from "@/lib/document";
-import { Camera } from "react-camera-pro";
+// import { Camera } from "react-camera-pro";
 import { isEmpty } from "@/lib/utils";
-import { stat } from "fs";
+import { NoCameraFill, X } from "../fonesa-icons";
+import { RenderFields } from "../fields-renderer";
+import { BarcodeScanner } from "react-barcode-scanner";
 
 export const Validate = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
@@ -31,17 +31,16 @@ export const Validate = () => {
   );
   const [inputData, setInputData] = useState<Record<string, string>>({});
   const [inputErrors, setInputErrors] = useState<Record<string, string>>({});
-  const { isOpen, onOpenChange } = useDisclosure();
+  const { onOpen, isOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
-    if (selectedDocument) {
-      selectedDocument.fields.forEach(item => {
-        setInputData((prev) => ({ ...prev, [item.id]: '' }));
-      });
-    }
-  }, [selectedDocument]);
+    setInputData({});
+    selectedDocument?.fields.forEach((element) => {
+      setInputData((prev) => ({ ...prev, [element.id]: "" }));
+    });
+  }, [selectedDocument, selectedState]);
 
-  const applyData = useDebounce((key: string, value: string) => {
+  const applyData = (key: string, value: string) => {
     setInputData((prev) => ({ ...prev, [key]: value }));
 
     setInputErrors((prev) => {
@@ -49,42 +48,67 @@ export const Validate = () => {
       delete newErrors[key];
       return newErrors;
     });
-  }, 250);
+  };
 
   const redirect = () => {
+    console.log(inputData);
+
     const newErrors: Record<string, string> = {};
     let hasErrors = false;
 
-    for (const key in inputData) {
-      if (isEmpty(inputData[key])) {
-        newErrors[key] = "Campo é obrigatório";
+    for (const element of selectedDocument?.fields || []) {
+      const conditional =
+        element.conditional && element.conditional({ state: selectedState });
+      const value = inputData[element.id];
+
+      if (!conditional && element.mandatory && isEmpty(value)) {
+        newErrors[element.id] = "Campo é obrigatório";
         hasErrors = true;
+      } else if (!conditional) {
+        const validationError = element.validate ? element.validate(value) : "";
+        if (validationError) {
+          newErrors[element.id] = validationError;
+          hasErrors = true;
+        }
       }
     }
 
     if (hasErrors) {
       setInputErrors(newErrors);
+      console.log(newErrors);
       return;
     }
 
-    if (selectedState) {
+    if (selectedState && selectedDocument) {
       const stateInfo = mapPaths.find((item) => item.uf === selectedState);
       if (stateInfo?.hasSig) {
         const queryParams = new URLSearchParams();
         switch (selectedDocument?.type) {
-          case 'gta':
-            queryParams.append('numero', inputData['number'].replace(/\D/g, ''));
-            queryParams.append('serie', inputData['serie'].toUpperCase());
-            queryParams.append('documento', inputData['document'].replace(/\D/g, ''));
+          case "gta":
+            const numero = inputData["barcode"];
+            // const serie = inputData["serie"];
+            queryParams.append("nu_codigobarra", numero);
+            // queryParams.append("serie", serie);
+            if (inputData["document"]) {
+              queryParams.append(
+                "documento",
+                inputData["document"].replace(/\D/g, "")
+              );
+            }
             break;
-          case 'ptv':
-            queryParams.append('numero', inputData['number'].replace(/\D/g, ''));
+          case "ptv":
+            queryParams.append(
+              "numero",
+              inputData["number"].replace(/\D/g, "")
+            );
             break;
           default:
             break;
         }
-        const redirectUrl = `${stateInfo.prodUrl}sem-login/validar-gta/visualizar?${queryParams.toString()}`;
-        window.open(redirectUrl, '_blank');
+        const redirectUrl = `${stateInfo.prodUrl}${
+          selectedDocument.path
+        }?${queryParams.toString()}`;
+        window.open(redirectUrl, "_blank");
       }
     }
   };
@@ -94,9 +118,20 @@ export const Validate = () => {
       <Modal
         classNames={{
           header: "border-b-[1px] border-[#e0e0e0] dark:border-[#2e2e2e]",
+          closeButton: "rounded-xl",
         }}
+        closeButton={
+          <Generics.Button
+            color="default"
+            variant="bordered"
+            size="md"
+            className="h-14 text-2xl text-[#fafafa] order-last"
+          >
+            <X className="text-[#fafafa]" />
+          </Generics.Button>
+        }
         backdrop="blur"
-        placement="top"
+        placement="center"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
       >
@@ -105,23 +140,29 @@ export const Validate = () => {
             <>
               <ModalHeader className="flex flex-col gap-1 text-[#212121] dark:text-[#fafafa]">
                 <h2>Aponte para o código de barras</h2>
-                <p className="text-sm font-normal">Ababa teste</p>
+                <p className="text-sm font-normal">
+                  O código será escaneado automaticamente
+                </p>
               </ModalHeader>
               <ModalBody>
                 <div
                   id="scanner-container"
-                  className="relative grid content-center overflow-hidden w-full h-64 mt-2 rounded-md bg-[#d6d6d6] dark:bg-[#212121]"
+                  className="relative flex justify-center items-center overflow-hidden w-full h-64 mt-2 rounded-md bg-[#d6d6d6] dark:bg-[#212121]"
                 >
-                  <Camera
+                  {/* <Camera
                     facingMode="environment"
                     errorMessages={{
                       noCameraAccessible: "",
                       permissionDenied: "",
                     }}
+                  /> */}
+                  <BarcodeScanner
+                    className="absolute z-10 top-0 left-0 w-full h-full"
+                    onCapture={(barcode) => {
+                      applyData("barcode", barcode.rawValue);
+                    }}
                   />
-                  <span className="material-symbols-rounded text-center text-[8rem] text-[#b1b1b1] dark:text-[#525252] select-none">
-                    no_photography
-                  </span>
+                  <NoCameraFill className="text-[8rem] text-[#b1b1b1] dark:text-[#525252] select-none" />
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -201,29 +242,17 @@ export const Validate = () => {
           </Select>
         </div>
         {selectedDocument && (
-          <div className="flex flex-row gap-4">
-            {selectedDocument.fields.map((field) => (
-              <Input
-                key={field.id}
-                className="flex-1"
-                size="md"
-                variant="faded"
-                classNames={{
-                  base: "relative",
-                  helperWrapper: "absolute -bottom-[20px] left-0",
-                }}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  applyData(field.id, value);
-                }}
-                type={field.type}
-                label={field.label}
-                isDisabled={!selectedState}
-                isRequired
-                isInvalid={!!inputErrors[field.id]}
-                errorMessage={inputErrors[field.id]}
-              />
-            ))}
+          <div className="flex flex-col gap-4">
+            <RenderFields
+              fields={selectedDocument?.fields || []}
+              maxPerRow={2}
+              inputData={inputData}
+              inputErrors={inputErrors}
+              applyData={applyData}
+              openBarcodeScanner={onOpen}
+              disabled={!selectedState || !selectedDocument}
+              selectedState={selectedState}
+            />
           </div>
         )}
       </div>

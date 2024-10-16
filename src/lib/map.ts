@@ -158,7 +158,7 @@ export const mapPaths: StateMap[] = [
     hasSig: true,
     sysName: "Sistema de Defesa Agropecuária da Paraíba",
     sysShortName: "SIDAP",
-    prodUrl: "https://www.pb.gov.br/",
+    prodUrl: "https://sidap.sedap.pb.gov.br/",
     flagUrl:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Bandeira_da_Para%C3%ADba.svg/800px-Bandeira_da_Para%C3%ADba.svg.png",
     mapPath:

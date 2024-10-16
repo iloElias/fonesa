@@ -59,6 +59,7 @@ export const Contacts = () => {
           <div className="flex gap-4 w-full">
             <Generics.Button
               color="default"
+              variant="bordered"
               className="flex-1 h-12"
               onClick={() => {
                 handleClick(null);
