@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { HomeFill, PersonsFill, PhoneFill } from "./ui/fonesa-icons";
 
 // import Generics from "../ui/generics";
 // import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
@@ -16,17 +17,17 @@ export const NavLinks = () => {
   return (
     <>
       <Link href="/" className={cn(linkClasses("/"))}>
-        <span className="material-symbols-rounded">home</span>
+        <HomeFill className="text-xl" />
         <strong className="group-hover:underline min-w-max">Home</strong>
       </Link>
       <span className="w-px h-6 bg-[#2e2e2e] hidden sm:block" />
       <Link href="/about" className={cn(linkClasses("/about"))}>
-        <span className="material-symbols-rounded">group</span>
+        <PersonsFill className="text-xl" />
         <strong className="group-hover:underline min-w-max">Sobre nós</strong>
       </Link>
       <span className="w-px h-6 bg-[#2e2e2e] hidden sm:block" />
       <Link href="/contact" className={cn(linkClasses("/contact"))}>
-        <span className="material-symbols-rounded">call</span>
+        <PhoneFill className="text-xl" />
         <strong className="group-hover:underline min-w-max">Contato</strong>
       </Link>
     </>

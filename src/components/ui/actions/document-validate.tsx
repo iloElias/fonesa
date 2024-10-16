@@ -149,17 +149,10 @@ export const Validate = () => {
                   id="scanner-container"
                   className="relative flex justify-center items-center overflow-hidden w-full h-64 mt-2 rounded-md bg-[#d6d6d6] dark:bg-[#212121]"
                 >
-                  {/* <Camera
-                    facingMode="environment"
-                    errorMessages={{
-                      noCameraAccessible: "",
-                      permissionDenied: "",
-                    }}
-                  /> */}
                   <BarcodeScanner
                     className="absolute z-10 top-0 left-0 w-full h-full"
                     onCapture={(barcode) => {
-                      applyData("barcode", barcode.rawValue);
+                      applyData("barcode", barcode.format);
                     }}
                   />
                   <NoCameraFill className="text-[8rem] text-[#b1b1b1] dark:text-[#525252] select-none" />

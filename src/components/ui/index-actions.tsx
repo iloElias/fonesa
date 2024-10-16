@@ -4,12 +4,13 @@ import { Validate } from "@components/ui/actions/document-validate";
 import { Manual } from "@components/ui/actions/document-manual";
 import { Contacts } from "@components/ui/actions/state-contacts";
 import { Transparency } from "@components/ui/actions/state-transparency";
+import { BookFill, CheckFill, InfoFill, PhoneFill } from "./fonesa-icons";
 
 export interface StateActions {
   key: string;
   name: string;
   description: string;
-  icon: string;
+  icon: () => ReactElement;
   component: () => ReactElement;
 }
 
@@ -18,28 +19,28 @@ export const stateActions: StateActions[] = [
     key: "validate",
     name: "Validação",
     description: "Validação de documentos emitidos pelo estado",
-    icon: "check_circle",
+    icon: () => <CheckFill />,
     component: () => <Validate />,
   },
   {
     key: "manual",
     name: "Manual",
     description: "Manuais de criação de documentos",
-    icon: "import_contacts",
+    icon: () => <BookFill />,
     component: () => <Manual />,
   },
   {
     key: "contacts",
     name: "Telefones",
     description: "Consultar telefones de agências",
-    icon: "call",
+    icon: () => <PhoneFill />,
     component: () => <Contacts />,
   },
   {
     key: "transparency",
     name: "Transparência",
     description: "Portal da transparência do estado",
-    icon: "info",
+    icon: () => <InfoFill />,
     component: () => <Transparency />,
   },
 ];

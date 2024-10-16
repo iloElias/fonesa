@@ -7,8 +7,9 @@ import {
 } from "@nextui-org/button";
 import {
   Radio as NextRadio,
-  RadioProps as NextRadioProps
+  RadioProps as NextRadioProps,
 } from "@nextui-org/react";
+import { ReactElement } from "react";
 
 const Div = ({
   className,
@@ -76,7 +77,7 @@ const ButtonGroup = ({ className, children, ...props }: ButtonGroupProps) => {
 };
 
 interface RadioProps extends NextRadioProps {
-  startContent?: React.ReactNode;
+  startContent?: () => ReactElement;
 }
 
 export const Radio = ({ children, startContent, ...props }: RadioProps) => {
@@ -93,11 +94,7 @@ export const Radio = ({ children, startContent, ...props }: RadioProps) => {
       {...props}
     >
       <div className="flex flex-row font-[inter] gap-2 items-center group-data-[selected=true]:text-[#5b7dfb]">
-        {startContent && (
-          <span className="material-symbols-rounded max-w-12 overflow-hidden p-2 rounded-lg border-2 border-transparent">
-            {startContent}
-          </span>
-        )}
+        {startContent && <div className="max-w-12 p-2 text-xl">{startContent()}</div>}
         {children}
       </div>
     </NextRadio>
