@@ -1,15 +1,29 @@
 "use client";
 import { mapPaths, StateMap } from "@/lib/map";
 import { NavLinks, NavLinksMobile } from "@components/nav-links";
-import ThemeButton from "@components/ui/theme-button";
 import Header from "@components/header";
 import { createContext, useState } from "react";
 import Generics from "@components/ui/generics";
 import { stateActions } from "@components/ui/index-actions";
-import { RadioGroup } from "@nextui-org/react";
+import { RadioGroup, Spinner } from "@nextui-org/react";
 import Footer from "@components/footer";
 import { useLocalStorage } from "usehooks-ts";
 import FonesaIcons from "@components/ui/fonesa-icons";
+import dynamic from "next/dynamic";
+
+const ThemeButton = dynamic(() => import("@components/ui/theme-button"), {
+  ssr: false,
+  loading: () => (
+    <Generics.Button
+      className="min-w-8 px-2 aspect-square dark:text-slate-100"
+      aria-label="Trocar para tema claro ou escuro"
+      color="default"
+      disabled
+    >
+      <Spinner size="md" color="primary"/>
+    </Generics.Button>
+  ),
+});
 
 interface MapContextType {
   States: StateMap[] | null;

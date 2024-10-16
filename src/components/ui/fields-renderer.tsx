@@ -124,19 +124,20 @@ export const RenderFields = ({
       {fieldGroups.map((group, index) => (
         <div key={`group-${index}`} className="flex flex-row gap-4 w-full">
           {group.map((field, fieldIndex) => (
-            <>
+            <div className="flex-1" key={`field-${field.id}-${fieldIndex}`}>
               {field.type === "select" ? (
                 <RenderOptions
-                  key={fieldIndex}
+                  key={`select-${field.id}-${fieldIndex}`}
                   options={field}
                   commonProps={commonProps}
                 />
               ) : (
                 <>
-                  {(field.conditional) ? (
-                    (selectedState && !field.conditional({ state: selectedState })) && (
+                  {field.conditional ? (
+                    selectedState &&
+                    !field.conditional({ state: selectedState }) && (
                       <Input
-                        key={`input-${fieldIndex}`}
+                        key={`input-${field.id}-${fieldIndex}`}
                         {...commonProps(field)}
                       />
                     )
@@ -146,15 +147,15 @@ export const RenderFields = ({
                         "flex flex-row gap-4",
                         field.classNames?.base
                       )}
-                      style={{ flex: "2 1 0", ...field.styles?.base }}
+                      style={{...field.styles?.base }}
                     >
                       <Input
-                        key={`input-${fieldIndex}`}
+                        key={`input-${field.id}-${fieldIndex}`}
                         {...commonProps(field)}
                       />
                       {field.type === "barcode" && (
                         <Generics.Button
-                          key={`barcode-button-${fieldIndex}`}
+                          key={`barcode-button-${field.id}-${fieldIndex}`}
                           color="primary"
                           variant="solid"
                           size="md"
@@ -169,7 +170,7 @@ export const RenderFields = ({
                   )}
                 </>
               )}
-            </>
+            </div>
           ))}
         </div>
       ))}

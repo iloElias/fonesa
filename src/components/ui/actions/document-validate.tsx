@@ -4,15 +4,13 @@ import {
   Button,
   Image,
   Modal,
-  ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   Select,
   SelectItem,
   useDisclosure,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ComponentWrapper } from "./action-container-wrapper";
 import ComponentHeader from "../container-header";
 import Generics from "../generics";
@@ -20,12 +18,16 @@ import { mapPaths } from "@/lib/map";
 import { Document, Documents } from "@/lib/document";
 // import { Camera } from "react-camera-pro";
 import { isEmpty } from "@/lib/utils";
-import { NoCameraFill, X } from "../fonesa-icons";
+import { X } from "../fonesa-icons";
 import { RenderFields } from "../fields-renderer";
-import { BarcodeScanner } from "react-barcode-scanner";
+import BarcodeScanner from "../barcode-reader";
+import { MapContext } from "@/pages";
 
 export const Validate = () => {
-  const [selectedState, setSelectedState] = useState<string | null>(null);
+  const { selectedState, handleClick } = useContext(MapContext);
+  const [selectedStateUf, setSelectedState] = useState<string | null>(
+    selectedState?.uf ?? null
+  );
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(
     null
   );
@@ -38,7 +40,7 @@ export const Validate = () => {
     selectedDocument?.fields.forEach((element) => {
       setInputData((prev) => ({ ...prev, [element.id]: "" }));
     });
-  }, [selectedDocument, selectedState]);
+  }, [selectedDocument, selectedStateUf]);
 
   const applyData = (key: string, value: string) => {
     setInputData((prev) => ({ ...prev, [key]: value }));
@@ -58,7 +60,7 @@ export const Validate = () => {
 
     for (const element of selectedDocument?.fields || []) {
       const conditional =
-        element.conditional && element.conditional({ state: selectedState });
+        element.conditional && element.conditional({ state: selectedStateUf });
       const value = inputData[element.id];
 
       if (!conditional && element.mandatory && isEmpty(value)) {
@@ -79,8 +81,8 @@ export const Validate = () => {
       return;
     }
 
-    if (selectedState && selectedDocument) {
-      const stateInfo = mapPaths.find((item) => item.uf === selectedState);
+    if (selectedStateUf && selectedDocument) {
+      const stateInfo = mapPaths.find((item) => item.uf === selectedStateUf);
       if (stateInfo?.hasSig) {
         const queryParams = new URLSearchParams();
         switch (selectedDocument?.type) {
@@ -144,37 +146,7 @@ export const Validate = () => {
                   O código será escaneado automaticamente
                 </p>
               </ModalHeader>
-              <ModalBody>
-                <div
-                  id="scanner-container"
-                  className="relative flex justify-center items-center overflow-hidden w-full h-64 mt-2 rounded-md bg-[#d6d6d6] dark:bg-[#212121]"
-                >
-                  <BarcodeScanner
-                    className="absolute z-10 top-0 left-0 w-full h-full"
-                    onCapture={(barcode) => {
-                      if (barcode) {
-                        applyData("barcode", barcode.format);
-                        return;
-                      }
-                      applyData("barcode", "Nenhum código encontrado");
-                    }}
-                  />
-                  <NoCameraFill className="text-[8rem] text-[#b1b1b1] dark:text-[#525252] select-none" />
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                {inputData["barcode"] && (
-                  <p className="flex-1 text-center text-[#212121] dark:text-[#fafafa]">
-                    {inputData["barcode"]}
-                  </p>
-                )}
-                <Button color="primary" variant="flat">
-                  Buscar
-                </Button>
-                <Button color="default" variant="flat" onPress={onClose}>
-                  Sair
-                </Button>
-              </ModalFooter>
+              <BarcodeScanner onClose={onClose} applyData={applyData} />
             </>
           )}
         </ModalContent>
@@ -193,8 +165,13 @@ export const Validate = () => {
             className="flex-1"
             onSelectionChange={(key) => {
               setSelectedState(key as string);
+              const state = mapPaths.find((item) => item.uf === key);
+              if (state) {
+                handleClick(state);
+              }
               applyData("state", key as string);
             }}
+            inputValue={selectedState?.name}
             size="md"
             variant="faded"
             label="Selecione o estado"
@@ -230,7 +207,7 @@ export const Validate = () => {
               );
               applyData("document_type", key.target.value);
             }}
-            isDisabled={!selectedState}
+            isDisabled={!selectedStateUf}
           >
             {Documents.map((doc) => (
               <SelectItem
@@ -252,8 +229,8 @@ export const Validate = () => {
               inputErrors={inputErrors}
               applyData={applyData}
               openBarcodeScanner={onOpen}
-              disabled={!selectedState || !selectedDocument}
-              selectedState={selectedState}
+              disabled={!selectedStateUf || !selectedDocument}
+              selectedState={selectedStateUf}
             />
           </div>
         )}
