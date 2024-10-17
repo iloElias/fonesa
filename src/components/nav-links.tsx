@@ -3,16 +3,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { HomeFill, PersonsFill, PhoneFill } from "./ui/fonesa-icons";
 
-// import Generics from "../ui/generics";
-// import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+interface NavLinksProps {
+  changeColors?: boolean;
+}
 
-export const NavLinks = () => {
+export const NavLinks = ({ changeColors = false }: NavLinksProps) => {
   const router = useRouter();
 
   const linkClasses = (href: string) =>
-    `group relative flex flex-row transition-colors duration-[50ms] items-center gap-2 ${
-      router.pathname === href ? "text-[#fafafa] after:absolute after:-bottom-3 after:h-[3px] after:w-full after:bg-[#fafafa] after:rounded-t-md" : ""
-    }`;
+    `group relative flex flex-row transition-colors transition-background duration-[50ms] items-center gap-2 ${
+      router.pathname === href
+        ? `text-[#fafafa] after:absolute after:-bottom-3 after:h-[3px] after:w-full ${changeColors ? "after:bg-[#212121] dark:after:bg-[#fafafa]" : "after:bg-[#fafafa]"} after:rounded-t-md`
+        : ""
+    } ${changeColors ? 'text-[#212121] dark:text-[#fafafa]' : ''}`;
 
   return (
     <>
@@ -20,12 +23,12 @@ export const NavLinks = () => {
         <HomeFill className="text-xl" />
         <strong className="group-hover:underline min-w-max">Home</strong>
       </Link>
-      <span className="w-px h-6 bg-[#2e2e2e] hidden sm:block" />
+      <span className={cn("transition-colors w-px h-6 hidden sm:block", changeColors ? "bg-[#e0e0e0] dark:bg-[#2e2e2e]": "bg-[#2e2e2e]")} />
       <Link href="/about" className={cn(linkClasses("/about"))}>
         <PersonsFill className="text-xl" />
         <strong className="group-hover:underline min-w-max">Sobre nós</strong>
       </Link>
-      <span className="w-px h-6 bg-[#2e2e2e] hidden sm:block" />
+      <span className={cn("transition-colors w-px h-6 hidden sm:block", changeColors ? "bg-[#e0e0e0] dark:bg-[#2e2e2e]": "bg-[#2e2e2e]")} />
       <Link href="/contact" className={cn(linkClasses("/contact"))}>
         <PhoneFill className="text-xl" />
         <strong className="group-hover:underline min-w-max">Contato</strong>

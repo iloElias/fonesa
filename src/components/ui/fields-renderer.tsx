@@ -147,25 +147,26 @@ export const RenderFields = ({
                         "flex flex-row gap-4",
                         field.classNames?.base
                       )}
-                      style={{...field.styles?.base }}
+                      style={{ ...field.styles?.base }}
                     >
                       <Input
                         key={`input-${field.id}-${fieldIndex}`}
                         {...commonProps(field)}
                       />
-                      {field.type === "barcode" && (
-                        <Generics.Button
-                          key={`barcode-button-${field.id}-${fieldIndex}`}
-                          color="primary"
-                          variant="solid"
-                          size="md"
-                          className="h-14 text-2xl text-[#fafafa] order-last"
-                          isDisabled={disabled}
-                          onPress={openBarcodeScanner}
-                        >
-                          <CameraFill />
-                        </Generics.Button>
-                      )}
+                      {false && // Botão para leitura de código de barras desativada temporariamente por não estar implementada
+                        field.type === "barcode" && (
+                          <Generics.Button
+                            key={`barcode-button-${field.id}-${fieldIndex}`}
+                            color="primary"
+                            variant="solid"
+                            size="md"
+                            className="h-14 text-2xl text-[#fafafa] order-last"
+                            isDisabled={disabled}
+                            onPress={openBarcodeScanner}
+                          >
+                            <CameraFill />
+                          </Generics.Button>
+                        )}
                     </div>
                   )}
                 </>

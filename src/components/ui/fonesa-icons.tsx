@@ -5,7 +5,7 @@ interface FonesaIconsProps {
   style?: React.CSSProperties;
 }
 
-function OldTelephone({ className, style }: FonesaIconsProps) {
+export const OldTelephone = ({ className, style }: FonesaIconsProps) => {
   return (
     <svg
       width="316"
@@ -53,9 +53,9 @@ function OldTelephone({ className, style }: FonesaIconsProps) {
       </defs>
     </svg>
   );
-}
+};
 
-function InfoToken({ className, style }: FonesaIconsProps) {
+export const InfoToken = ({ className, style }: FonesaIconsProps) => {
   return (
     <svg
       width="316"
@@ -98,9 +98,9 @@ function InfoToken({ className, style }: FonesaIconsProps) {
       </defs>
     </svg>
   );
-}
+};
 
-function OpenBlankBook({ className, style }: FonesaIconsProps) {
+export const OpenBlankBook = ({ className, style }: FonesaIconsProps) => {
   return (
     <svg
       width="150"
@@ -132,7 +132,53 @@ function OpenBlankBook({ className, style }: FonesaIconsProps) {
       </defs>
     </svg>
   );
-}
+};
+
+export const Gear = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 78 78"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
+    style={style}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M46.7494 5.26046C44.2552 -1.75349 34.3359 -1.75349 31.8417 5.26046C30.2709 9.67746 25.2254 11.7674 20.9915 9.75477C14.2681 6.55887 7.25418 13.5728 10.4501 20.2961C12.4627 24.5301 10.3728 29.5756 5.95577 31.1464C-1.05817 33.6406 -1.05817 43.5599 5.95577 46.0541C10.3728 47.6249 12.4627 52.6704 10.4501 56.9044C7.25418 63.6277 14.2681 70.6416 20.9915 67.4457C25.2254 65.4331 30.2709 67.523 31.8417 71.94C34.3359 78.954 44.2552 78.954 46.7494 71.94C48.3202 67.523 53.3657 65.4331 57.5997 67.4457C64.323 70.6416 71.3369 63.6277 68.141 56.9044C66.1284 52.6704 68.2184 47.6249 72.6354 46.0541C79.6493 43.5599 79.6493 33.6406 72.6354 31.1464C68.2184 29.5756 66.1284 24.5301 68.141 20.2961C71.3369 13.5728 64.323 6.55887 57.5997 9.75477C53.3657 11.7674 48.3202 9.67746 46.7494 5.26046ZM39.4813 54.3004C48.0497 54.3004 54.9957 47.3543 54.9957 38.786C54.9957 30.2176 48.0497 23.2716 39.4813 23.2716C30.9129 23.2716 23.9669 30.2176 23.9669 38.786C23.9669 47.3543 30.9129 54.3004 39.4813 54.3004Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const GearGroup = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 198 165"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
+    style={style}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M159.749 5.26046C157.255 -1.75349 147.336 -1.75349 144.842 5.26046C143.271 9.67746 138.225 11.7674 133.991 9.75477C127.268 6.55887 120.254 13.5728 123.45 20.2961C125.463 24.5301 123.373 29.5756 118.956 31.1464C111.942 33.6406 111.942 43.5599 118.956 46.0541C123.373 47.6249 125.463 52.6704 123.45 56.9044C120.254 63.6277 127.268 70.6416 133.991 67.4457C138.225 65.4331 143.271 67.523 144.842 71.94C147.336 78.954 157.255 78.954 159.749 71.94C161.32 67.523 166.366 65.4331 170.6 67.4457C177.323 70.6416 184.337 63.6277 181.141 56.9044C179.128 52.6704 181.218 47.6249 185.635 46.0541C192.649 43.5599 192.649 33.6406 185.635 31.1464C181.218 29.5756 179.128 24.5301 181.141 20.2961C184.337 13.5728 177.323 6.55887 170.6 9.75477C166.366 11.7674 161.32 9.67746 159.749 5.26046ZM152.481 54.3004C161.05 54.3004 167.996 47.3543 167.996 38.786C167.996 30.2176 161.05 23.2716 152.481 23.2716C143.913 23.2716 136.967 30.2176 136.967 38.786C136.967 47.3543 143.913 54.3004 152.481 54.3004Z"
+      fill="#5A7DFC"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M174.909 101.353C173.06 96.1531 165.706 96.1531 163.857 101.353C162.692 104.628 158.952 106.177 155.813 104.685C150.828 102.316 145.628 107.516 147.998 112.5C149.49 115.639 147.94 119.38 144.666 120.544C139.466 122.393 139.466 129.747 144.666 131.596C147.94 132.761 149.49 136.502 147.998 139.64C145.628 144.625 150.828 149.825 155.813 147.456C158.952 145.963 162.692 147.513 163.857 150.788C165.706 155.987 173.06 155.987 174.909 150.788C176.073 147.513 179.814 145.963 182.953 147.456C187.937 149.825 193.137 144.625 190.768 139.64C189.276 136.502 190.825 132.761 194.1 131.596C199.3 129.747 199.3 122.393 194.1 120.544C190.825 119.38 189.276 115.639 190.768 112.5C193.137 107.516 187.937 102.316 182.953 104.685C179.814 106.177 176.073 104.628 174.909 101.353ZM169.521 137.71C175.873 137.71 181.022 132.56 181.022 126.208C181.022 119.856 175.873 114.706 169.521 114.706C163.168 114.706 158.019 119.856 158.019 126.208C158.019 132.56 163.168 137.71 169.521 137.71Z"
+      fill="#0437EB"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M75.6689 46.5416C71.5707 35.0174 55.273 35.0174 51.1748 46.5416C48.594 53.7989 40.304 57.2327 33.3474 53.9259C22.3007 48.6749 10.7765 60.1992 16.0275 71.2459C19.3343 78.2025 15.9005 86.4925 8.64316 89.0733C-2.88105 93.1714 -2.88106 109.469 8.64316 113.567C15.9005 116.148 19.3343 124.438 16.0275 131.395C10.7765 142.441 22.3007 153.966 33.3474 148.715C40.304 145.408 48.594 148.842 51.1748 156.099C55.273 167.623 71.5707 167.623 75.6689 156.099C78.2497 148.842 86.5397 145.408 93.4963 148.715C104.543 153.966 116.067 142.441 110.816 131.395C107.509 124.438 110.943 116.148 118.201 113.567C129.725 109.469 129.725 93.1714 118.201 89.0733C110.943 86.4925 107.509 78.2025 110.816 71.2459C116.067 60.1992 104.543 48.6749 93.4963 53.9259C86.5397 57.2327 78.2497 53.7989 75.6689 46.5416ZM63.727 127.116C77.8052 127.116 89.2178 115.704 89.2178 101.625C89.2178 87.5473 77.8052 76.1347 63.727 76.1347C49.6488 76.1347 38.2362 87.5473 38.2362 101.625C38.2362 115.704 49.6488 127.116 63.727 127.116Z"
+      fill="#2A58FB"
+    />
+  </svg>
+);
 
 export const Banner = ({ className, style }: FonesaIconsProps) => {
   return (
@@ -238,7 +284,7 @@ export const CameraFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -255,7 +301,7 @@ export const NoCameraFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -276,7 +322,7 @@ export const X = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -291,7 +337,7 @@ export const HomeFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -308,7 +354,7 @@ export const CheckFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -325,7 +371,7 @@ export const InfoFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -342,7 +388,7 @@ export const BookFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -361,7 +407,7 @@ export const PersonsFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -388,7 +434,7 @@ export const PhoneFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -403,7 +449,7 @@ export const SunFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -420,7 +466,7 @@ export const MoonFill = ({ className, style }: FonesaIconsProps) => (
     viewBox="0 0 22 22"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className, "text-inherit w-[1em] h-[1em]")}
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
     style={style}
   >
     <path
@@ -430,6 +476,87 @@ export const MoonFill = ({ className, style }: FonesaIconsProps) => (
       strokeWidth="0.916667"
       strokeLinecap="round"
       strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const Add = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 22 22"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
+    style={style}
+  >
+    <path
+      d="M12.25 2.25C12.25 1.55964 11.6904 1 11 1C10.3096 1 9.75 1.55964 9.75 2.25V9.75H2.25C1.55964 9.75 1 10.3096 1 11C1 11.6904 1.55964 12.25 2.25 12.25H9.75V19.75C9.75 20.4404 10.3096 21 11 21C11.6904 21 12.25 20.4404 12.25 19.75V12.25H19.75C20.4404 12.25 21 11.6904 21 11C21 10.3096 20.4404 9.75 19.75 9.75H12.25V2.25Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const Reload = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 22 22"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
+    style={style}
+  >
+    <path
+      d="M11.0002 3.5C7.60453 3.5 4.7329 5.75765 3.81062 8.85656C3.61369 9.51824 2.91766 9.89499 2.25599 9.69807C1.59431 9.50114 1.21756 8.80511 1.41448 8.14344C2.64357 4.01362 6.46832 1 11.0002 1C13.988 1 16.6684 2.31026 18.5 4.38555V3.5C18.5 2.80964 19.0596 2.25 19.75 2.25C20.4404 2.25 21 2.80964 21 3.5V7.875C21 8.56536 20.4404 9.125 19.75 9.125H15.375C14.6846 9.125 14.125 8.56536 14.125 7.875C14.125 7.18464 14.6846 6.625 15.375 6.625H17.0929C15.7306 4.73122 13.5083 3.5 11.0002 3.5Z"
+      fill="currentColor"
+    />
+    <path
+      d="M19.7444 12.3019C20.4061 12.4989 20.7828 13.1949 20.5859 13.8566C19.3568 17.9864 15.5321 21 11.0002 21C8.01214 21 5.33163 19.6895 3.5 17.614V18.5C3.5 19.1904 2.94036 19.75 2.25 19.75C1.55964 19.75 1 19.1904 1 18.5V14.125C1 13.4346 1.55964 12.875 2.25 12.875H6.625C7.31536 12.875 7.875 13.4346 7.875 14.125C7.875 14.8154 7.31536 15.375 6.625 15.375H4.90745C6.26979 17.2688 8.49214 18.5 11.0002 18.5C14.3959 18.5 17.2675 16.2423 18.1898 13.1434C18.3867 12.4818 19.0827 12.105 19.7444 12.3019Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const Less = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 22 22"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
+    style={style}
+  >
+    <path
+      d="M19.75 12.5C20.4404 12.5 21 11.9404 21 11.25C21 10.5596 20.4404 10 19.75 10H2.25C1.55964 10 1 10.5596 1 11.25C1 11.9404 1.55964 12.5 2.25 12.5L19.75 12.5Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const Redirect = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 22 22"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
+    style={style}
+  >
+    <path
+      d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h240q17 0 28.5 11.5T480-800q0 17-11.5 28.5T440-760H200v560h560v-240q0-17 11.5-28.5T800-480q17 0 28.5 11.5T840-440v240q0 33-23.5 56.5T760-120H200Zm560-584L416-360q-11 11-28 11t-28-11q-11-11-11-28t11-28l344-344H600q-17 0-28.5-11.5T560-800q0-17 11.5-28.5T600-840h200q17 0 28.5 11.5T840-800v200q0 17-11.5 28.5T800-560q-17 0-28.5-11.5T760-600v-104Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const DocumentFill = ({ className, style }: FonesaIconsProps) => (
+  <svg
+    viewBox="0 0 22 22"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    className={cn("text-inherit w-[1em] h-[1em]", className)}
+    style={style}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M17 21H5C3.89543 21 3 20.1046 3 19V3C3 1.89543 3.89543 1 5 1H14.3787C14.7765 1 15.158 1.15804 15.4393 1.43934L18.5607 4.56066C18.842 4.84197 19 5.2235 19 5.62132V19C19 20.1046 18.1046 21 17 21ZM17.2757 6H14.3C14.1343 6 14 5.86569 14 5.7V2.72426C14 2.45699 14.3231 2.32314 14.5121 2.51213L17.4879 5.48787C17.6769 5.67686 17.543 6 17.2757 6Z"
+      fill="currentColor"
     />
   </svg>
 );
@@ -449,5 +576,11 @@ const FonesaIcons = {
   PhoneFill,
   SunFill,
   MoonFill,
+  Add,
+  Reload,
+  Less,
+  Redirect,
+  DocumentFill,
 };
+
 export default FonesaIcons;

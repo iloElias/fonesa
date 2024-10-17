@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { ComponentWrapper } from "./action-container-wrapper";
+import { DocumentFill } from "../fonesa-icons";
 
 interface Page {
   id: string;
@@ -46,16 +47,14 @@ const RenderManuals = ({ data, type = "document" }: RenderManualsProps) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span className="material-symbols-rounded">
-        {type === "document" ? "draft" : "smart_display"}
-      </span>
+      {type === "document" ? <DocumentFill /> : "smart_display"}
       <p
         title={item.title}
         className="group-hover:underline truncate flex-1 max-w-[calc(100% - 14px)]"
       >
         {item.title}
       </p>
-      <span className="material-symbols-rounded">open_in_new</span>
+      {/* <Redirect /> */}
     </Link>
   ));
 };

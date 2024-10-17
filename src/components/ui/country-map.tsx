@@ -13,6 +13,7 @@ import { MapContext } from "@/pages";
 import { useLocalStorage } from "usehooks-ts";
 import { Tooltip } from "@nextui-org/react";
 import ComponentHeader from "./container-header";
+import { Add, Less, Reload } from "./fonesa-icons";
 
 interface StatePathProps {
   state: StateMap;
@@ -68,7 +69,8 @@ function StatePath({ state, index, functional }: StatePathProps) {
         delay={250}
         placement="right"
         classNames={{
-          content: "w-34 p-0 text-[#212121] bg-transparent bg-[#ffffff]/95 backdrop-blur-xl border-none",
+          content:
+            "w-34 p-0 text-[#212121] bg-transparent bg-[#ffffff]/95 backdrop-blur-xl border-none",
         }}
         radius="sm"
         content={
@@ -151,17 +153,17 @@ const MapWrapper = ({ children }: MapWrapperProps) => {
       <div className="absolute z-10 top-4 right-4">
         <Generics.ButtonGroup>
           <Generics.Button onClick={() => zoomIn()}>
-            <span className="material-symbols-rounded">add</span>
+            <Add />
           </Generics.Button>
           <Generics.Button
             onClick={() => {
               centerView(isMobile() ? 2.8 : 2);
             }}
           >
-            <span className="material-symbols-rounded">refresh</span>
+            <Reload />
           </Generics.Button>
           <Generics.Button onClick={() => zoomOut()}>
-            <span className="material-symbols-rounded">remove</span>
+            <Less />
           </Generics.Button>
         </Generics.ButtonGroup>
       </div>

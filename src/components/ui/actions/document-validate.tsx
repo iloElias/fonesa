@@ -36,7 +36,9 @@ export const Validate = () => {
   const { onOpen, isOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
-    setInputData({});
+    setInputData({
+      state: selectedStateUf || "",
+    });
     selectedDocument?.fields.forEach((element) => {
       setInputData((prev) => ({ ...prev, [element.id]: "" }));
     });
@@ -53,8 +55,6 @@ export const Validate = () => {
   };
 
   const redirect = () => {
-    console.log(inputData);
-
     const newErrors: Record<string, string> = {};
     let hasErrors = false;
 
@@ -88,9 +88,7 @@ export const Validate = () => {
         switch (selectedDocument?.type) {
           case "gta":
             const numero = inputData["barcode"];
-            // const serie = inputData["serie"];
             queryParams.append("nu_codigobarra", numero);
-            // queryParams.append("serie", serie);
             if (inputData["document"]) {
               queryParams.append(
                 "documento",
@@ -171,7 +169,7 @@ export const Validate = () => {
               }
               applyData("state", key as string);
             }}
-            inputValue={selectedState?.name}
+            value={inputData["state"]}
             size="md"
             variant="faded"
             label="Selecione o estado"
@@ -200,14 +198,14 @@ export const Validate = () => {
             color="default"
             variant="faded"
             label="Tipo de documento"
-            className="flex-1 max-w-xs"
+            className="flex-1 max-w-[50%]"
             onChange={(key) => {
               setSelectedDocument(
                 Documents.find((doc) => doc.type === key.target.value) || null
               );
               applyData("document_type", key.target.value);
             }}
-            isDisabled={!selectedStateUf}
+            isDisabled={!inputData["state"]}
           >
             {Documents.map((doc) => (
               <SelectItem

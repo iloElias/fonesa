@@ -20,10 +20,17 @@ const ThemeButton = dynamic(() => import("@components/ui/theme-button"), {
       color="default"
       disabled
     >
-      <Spinner size="md" color="primary"/>
+      <Spinner size="md" color="primary" />
     </Generics.Button>
   ),
 });
+
+const HeaderLast = () => (
+  <>
+    <ThemeButton />
+    <NavLinksMobile />
+  </>
+);
 
 interface MapContextType {
   States: StateMap[] | null;
@@ -75,14 +82,7 @@ export default function Index() {
       }}
     >
       <div className="flex flex-col transition-background duration-[50ms] bg-[#f2f2f2] dark:bg-[#191919] max-w-[100svw] min-h-dvh">
-        <Header
-          last={
-            <>
-              <ThemeButton />
-              <NavLinksMobile />
-            </>
-          }
-        >
+        <Header last={<HeaderLast />}>
           <NavLinks />
         </Header>
         <div className="flex flex-col items-center bg-[#212121] max-w-[100svw] overflow-hidden">
